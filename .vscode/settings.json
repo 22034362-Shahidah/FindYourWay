@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "javascript.validate.enable": true,
+    "eslint.enable": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true
+    },
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on"
+}

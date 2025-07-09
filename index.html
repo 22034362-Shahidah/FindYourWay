@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Way</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div id="welcome-overlay"
+        style="position:fixed;z-index:2000;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#f0fff0 0%,#d6f9d6 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
+        <button id="welcome-btn"
+            style="font-size:2.1rem;padding:1.1em 2.5em;background:#90ee90;color:#226622;border:none;border-radius:18px;box-shadow:0 2px 16px rgba(144,238,144,0.13);font-weight:700;letter-spacing:1px;cursor:pointer;transition:background 0.2s,transform 0.1s;">
+            Welcome to Republic Polytechnic!</button>
+        <p style="margin-top:2em;font-size:1.18rem;color:#226622;max-width:520px;text-align:center;line-height:1.6;">
+            Feel free to use this site to navigate around the campus. Find any buildings, facilities, and get
+            step-by-step directions around campus. Ask the chatbot for help at any time!</p>
+    </div>
+    <header class="main-header">
+        <h1>Find Your Way</h1>
+        <p>Navigate your way around the campus with ease!</p>
+    </header>
+    <section id="features" class="container features-section"
+        style="margin-top:1.5em; margin-bottom:2em; display:flex; justify-content:center;">
+        <h2>Features</h2>
+        <ul class="features-list" style="margin-left:2em;">
+            <li>
+                <button class="feature-btn" id="map-btn"
+                    onclick="window.open('https://www.google.com/maps/place/Republic+Polytechnic/@1.4426,103.785,17z', '_blank')">
+                    <span class="feature-icon">🗺️</span>
+                    <div class="feature-content">
+                        <div class="feature-title">Interactive Campus Map</div>
+                        <div class="feature-desc">Explore a real-time, zoomable Google Map of Republic Polytechnic. Find
+                            any building, facility, or landmark with ease and get a bird's-eye view of the campus
+                            layout.</div>
+                    </div>
+                </button>
+            </li>
+            <li>
+                <button class="feature-btn" id="parking-btn" onclick="window.location.href='parking.html'">
+                    <span class="feature-icon">🅿️</span>
+                    <div class="feature-content">
+                        <div class="feature-title">Parking Lots Available</div>
+                        <div class="feature-desc">Check real-time availability of parking lots at Republic Polytechnic.
+                            See which car park is nearest to your location and how many lots are open right now.</div>
+                    </div>
+                </button>
+            </li>
+            <li>
+                <button class="feature-btn" id="history-btn" onclick="window.location.href='history.html'">
+                    <span class="feature-icon">📜</span>
+                    <div class="feature-content">
+                        <div class="feature-title">History Path</div>
+                        <div class="feature-desc">View your previously searched routes and locations. Quickly revisit
+                            your most frequent or recent navigation queries for convenience.</div>
+                    </div>
+                </button>
+            </li>
+        </ul>
+    </section>
+    <main style="display: flex; min-height: 80vh; margin-top:-1.5em;">
+        <div style="flex: 1;">
+            <section id="map" class="container" style="margin-top:0.5em;">
+                <h2>Campus Map</h2>
+                <img src="Campus Map.png" alt="Republic Polytechnic Campus Map"
+                    style="display:block;margin:auto;width:100%;max-width:420px;border:2px solid #32cd32;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+                <p style="margin-top:0.5em;font-size:0.95em;color:#228b22;">
+                    Refer to the map above for building locations. The chatbot can guide you step-by-step!<br>
+                    <strong>Republic Polytechnic Address:</strong> 9 Woodlands Avenue 9, Singapore 738964
+                </p>
+            </section>
+        </div>
+    </main>
+    <button id="chatbot-toggle" aria-label="Open chatbot"
+        style="position:fixed;bottom:2rem;right:2rem;z-index:1002;background:#32cd32;color:#fff;border:none;border-radius:50%;width:60px;height:60px;box-shadow:0 2px 8px rgba(0,0,0,0.15);font-size:2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;">💬</button>
+    <aside id="chatbot-sidebar">
+        <div class="chatbot-content">
+            <h3>Campus Chatbot</h3>
+            <div id="chatbot-messages"></div>
+            <form id="chatbot-form" autocomplete="off">
+                <input type="text" id="chatbot-input" placeholder="Ask me anything about campus..."
+                    autocomplete="off" />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </aside>
+    <footer class="footer">
+        <p>&copy; 2025 Find Your Way. All rights reserved.</p>
+    </footer>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

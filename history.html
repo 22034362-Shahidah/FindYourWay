@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History Path - Republic Polytechnic</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .history-section {
+      max-width: 600px;
+      margin: 3em auto;
+      background: #f8fff8;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(144, 238, 144, 0.10);
+      padding: 2em;
+    }
+
+    .history-title {
+      color: #388e3c;
+      font-size: 2rem;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+
+    .history-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .history-list li {
+      background: #e8ffe8;
+      border-radius: 8px;
+      margin-bottom: 0.7em;
+      padding: 1em 1.2em;
+      color: #226622;
+      font-size: 1.08em;
+      box-shadow: 0 1px 6px rgba(144, 238, 144, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .history-list li .replay-btn {
+      background: #90ee90;
+      color: #226622;
+      border: none;
+      border-radius: 6px;
+      padding: 0.3em 0.9em;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-left: 1em;
+    }
+
+    .history-list li .replay-btn:hover {
+      background: #4bb543;
+      color: #fff;
+    }
+
+    .empty-history {
+      color: #bbb;
+      text-align: center;
+      margin-top: 2em;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>History Path</h1>
+    <p>See your previously searched routes and locations.</p>
+  </header>
+  <section class="history-section">
+    <div class="history-title">Your Navigation History</div>
+    <ul class="history-list" id="history-list">
+      <!-- History will be loaded here -->
+    </ul>
+    <div class="empty-history" id="empty-history" style="display:none;">No history yet. Start searching on the main
+      page!</div>
+  </section>
+  <script>
+    // Load from localStorage (same as favoritePaths, but for all queries)
+    let historyPaths = JSON.parse(localStorage.getItem('historyPaths') || '[]');
+    function renderHistory() {
+      const list = document.getElementById('history-list');
+      const empty = document.getElementById('empty-history');
+      list.innerHTML = '';
+      if (historyPaths.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      historyPaths.slice().reverse().forEach(q => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${q}</span> <button class='replay-btn' onclick='replayQuery("${encodeURIComponent(q)}")'>Replay</button>`;
+        list.appendChild(li);
+      });
+    }
+    function replayQuery(q) {
+      q = decodeURIComponent(q);
+      window.location.href = `index.html#chatbot`; // Optionally, you can trigger the chatbot with this query
+      localStorage.setItem('replayQuery', JSON.stringify(q));
+    }
+    renderHistory();
+  </script>
+  <footer class="footer">
+    <p>&copy; 2025 Find Your Way. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

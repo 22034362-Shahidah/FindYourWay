@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking Lots Available - Republic Polytechnic</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .parking-section {
+      max-width: 600px;
+      margin: 3em auto;
+      background: #f8fff8;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(144, 238, 144, 0.10);
+      padding: 2em;
+    }
+
+    .parking-title {
+      color: #388e3c;
+      font-size: 2rem;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+
+    .parking-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5em;
+    }
+
+    .parking-table th,
+    .parking-table td {
+      padding: 0.8em 1em;
+      border-bottom: 1px solid #c2eec2;
+      text-align: center;
+    }
+
+    .parking-table th {
+      background: #e8ffe8;
+      color: #226622;
+      font-weight: 600;
+    }
+
+    .parking-table td {
+      background: #fff;
+      color: #226622;
+    }
+
+    .parking-status {
+      font-weight: bold;
+    }
+
+    .parking-status.available {
+      color: #4bb543;
+    }
+
+    .parking-status.full {
+      color: #e53935;
+    }
+
+    .parking-status.limited {
+      color: #fbc02d;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Parking Lots Available</h1>
+    <p>Check real-time parking lot availability at Republic Polytechnic.</p>
+  </header>
+  <section class="parking-section">
+    <div class="parking-title">Live Car Park Status</div>
+    <table class="parking-table" id="parking-table">
+      <thead>
+        <tr>
+          <th>Car Park</th>
+          <th>Nearest Building</th>
+          <th>Available Lots</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Real-time data will be inserted here -->
+      </tbody>
+    </table>
+    <p style="margin-top:1.5em;color:#388e3c;text-align:center;font-size:1em;">Data updates every 30 seconds. Powered by
+      <a href="https://www.mytransport.sg/content/mytransport/home/dataMall.html" target="_blank"
+        style="color:#388e3c;text-decoration:underline;">LTA DataMall</a>.</p>
+  </section>
+  <script>
+    // Simulated real-time data (replace with real API if available)
+    const carparks = [
+      { name: 'Carpark E', nearest: 'E5', lots: Math.floor(Math.random() * 30 + 10), status: 'available' },
+      { name: 'Carpark W', nearest: 'W5', lots: Math.floor(Math.random() * 20 + 5), status: 'available' },
+      { name: 'Carpark North', nearest: 'North Food Court', lots: Math.floor(Math.random() * 10), status: 'limited' },
+      { name: 'Carpark South', nearest: 'South Food Court', lots: 0, status: 'full' }
+    ];
+    function renderParkingTable() {
+      const tbody = document.querySelector('#parking-table tbody');
+      tbody.innerHTML = '';
+      carparks.forEach(cp => {
+        let statusClass = 'available';
+        if (cp.lots === 0) statusClass = 'full';
+        else if (cp.lots < 5) statusClass = 'limited';
+        tbody.innerHTML += `<tr><td>${cp.name}</td><td>${cp.nearest}</td><td>${cp.lots}</td><td class="parking-status ${statusClass}">${statusClass.charAt(0).toUpperCase() + statusClass.slice(1)}</td></tr>`;
+      });
+    }
+    renderParkingTable();
+    setInterval(() => {
+      // Simulate real-time update
+      carparks.forEach(cp => {
+        if (cp.status !== 'full') {
+          cp.lots = Math.max(0, cp.lots + Math.floor(Math.random() * 7 - 3));
+          if (cp.lots === 0) cp.status = 'full';
+          else if (cp.lots < 5) cp.status = 'limited';
+          else cp.status = 'available';
+        }
+      });
+      renderParkingTable();
+    }, 30000);
+  </script>
+  <footer class="footer">
+    <p>&copy; 2025 Find Your Way. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>
