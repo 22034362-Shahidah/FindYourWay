@@ -62,6 +62,30 @@
     .parking-status.limited {
       color: #fbc02d;
     }
+
+    /* Back to Main Website Arrow Button (always show on non-home pages) */
+    .back-to-main {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      background: #d6f9d6;
+      color: #228b22;
+      padding: 7px 14px 7px 10px;
+      border-radius: 50px;
+      font-size: 18px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.13);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-to-main span {
+      font-size: 1.3em;
+      line-height: 1;
+    }
   </style>
 </head>
 
@@ -87,8 +111,43 @@
     </table>
     <p style="margin-top:1.5em;color:#388e3c;text-align:center;font-size:1em;">Data updates every 30 seconds. Powered by
       <a href="https://www.mytransport.sg/content/mytransport/home/dataMall.html" target="_blank"
-        style="color:#388e3c;text-decoration:underline;">LTA DataMall</a>.</p>
+        style="color:#388e3c;text-decoration:underline;">LTA DataMall</a>.
+    </p>
   </section>
+  <script>
+    // Only show back button if NOT on homepage (index.html or /)
+    (function () {
+      var path = window.location.pathname.replace(/\\/g, '/');
+      var isHome = path.endsWith('/') || path.endsWith('/index.html') || path === '/index.html' || path === '/';
+      if (!isHome) {
+        var backBtn = document.createElement('a');
+        backBtn.href = 'javascript:void(0)';
+        backBtn.onclick = function (e) { e.preventDefault(); window.history.back(); };
+        backBtn.setAttribute('aria-label', 'Back');
+        backBtn.style.position = 'fixed';
+        backBtn.style.top = '12px';
+        backBtn.style.left = '12px';
+        backBtn.style.background = '#d6f9d6';
+        backBtn.style.color = '#228b22';
+        backBtn.style.padding = '3px 11px 3px 8px';
+        backBtn.style.borderRadius = '16px';
+        backBtn.style.fontSize = '0.73rem';
+        backBtn.style.textDecoration = 'none';
+        backBtn.style.fontWeight = '700';
+        backBtn.style.boxShadow = '0 2px 12px 0 rgba(34,205,34,0.13)';
+        backBtn.style.zIndex = '9999';
+        backBtn.style.display = 'flex';
+        backBtn.style.alignItems = 'center';
+        backBtn.style.justifyContent = 'center';
+        backBtn.style.gap = '3.5px';
+        backBtn.style.height = '27px';
+        backBtn.style.minWidth = '60px';
+        backBtn.style.letterSpacing = '0.25px';
+        backBtn.innerHTML = '<span style="font-size:1.05rem;line-height:1;font-weight:700;">&#8592;</span><span style="margin-left:0.5px;font-size:1.05rem;line-height:1;font-weight:700;">Back</span>';
+        document.body.appendChild(backBtn);
+      }
+    })();
+  </script>
   <script>
     // Simulated real-time data (replace with real API if available)
     const carparks = [

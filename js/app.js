@@ -586,24 +586,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   if (form) form.addEventListener('submit', playSendSound);
 
-  // Insert Back to Home Button
-  const backBtn = document.createElement('a');
-  backBtn.href = 'http://127.0.0.1:5500/index.html';
-  backBtn.innerHTML = '← Back';
-  backBtn.setAttribute('style', `
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 50px;
-    font-size: 16px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 9999;
-  `);
-  document.body.appendChild(backBtn);
+  // Remove Back to Home Button if present
+  const oldBackBtn = document.querySelector('a[href="http://127.0.0.1:5500/index.html"]');
+  if (oldBackBtn) oldBackBtn.remove();
 });
 

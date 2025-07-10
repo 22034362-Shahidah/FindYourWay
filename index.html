@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    <!-- Back Arrow Button to Home (refreshes the page) -->
+    <a id="back-to-welcome" href="index.html" aria-label="Back to Welcome" style="position: fixed; top: 12px; left: 12px; background: #d6f9d6; color: #228b22; padding: 3px 11px 3px 8px; border-radius: 16px; font-size: 0.73rem; text-decoration: none; font-weight: 700; box-shadow: 0 2px 12px 0 rgba(34,205,34,0.13); z-index: 9999; display: flex; align-items: center; justify-content: center; gap: 3.5px; height: 27px; min-width: 60px; letter-spacing: 0.25px;">
+        <span style="font-size:1.05rem;line-height:1;font-weight:700;">&#8592;</span><span style="margin-left:0.5px;font-size:1.05rem;line-height:1;font-weight:700;">Back</span>
+    </a>
     <div id="welcome-overlay"
         style="position:fixed;z-index:2000;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#f0fff0 0%,#d6f9d6 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
         <button id="welcome-btn"
@@ -18,6 +22,17 @@
             Feel free to use this site to navigate around the campus. Find any buildings, facilities, and get
             step-by-step directions around campus. Ask the chatbot for help at any time!</p>
     </div>
+    <script>
+        // Show/hide welcome overlay and back button
+        const welcomeOverlay = document.getElementById('welcome-overlay');
+        const welcomeBtn = document.getElementById('welcome-btn');
+        // On page load, show overlay and hide back button
+        welcomeOverlay.style.display = 'flex';
+        // When welcome button is clicked, hide overlay and show back button
+        welcomeBtn.addEventListener('click', function() {
+            welcomeOverlay.style.display = 'none';
+        });
+    </script>
     <header class="main-header">
         <h1>Find Your Way</h1>
         <p>Navigate your way around the campus with ease!</p>
@@ -73,6 +88,41 @@
             </section>
         </div>
     </main>
+    <!-- Back Arrow Button (only on non-home pages, smaller, centered, says Back) -->
+    <script>
+        // Only show back button if NOT on homepage (index.html or /)
+        (function () {
+            var path = window.location.pathname.replace(/\\/g, '/');
+            var isHome = path.endsWith('/') || path.endsWith('/index.html') || path === '/index.html' || path === '/';
+            if (!isHome) {
+                var backBtn = document.createElement('a');
+                backBtn.href = 'javascript:void(0)';
+                backBtn.onclick = function (e) { e.preventDefault(); window.history.back(); };
+                backBtn.setAttribute('aria-label', 'Back');
+                backBtn.style.position = 'fixed';
+                backBtn.style.top = '18px';
+                backBtn.style.left = '18px';
+                backBtn.style.background = '#d6f9d6'; // light baby green
+                backBtn.style.color = '#228b22';
+                backBtn.style.padding = '6px 22px 6px 16px';
+                backBtn.style.borderRadius = '32px';
+                backBtn.style.fontSize = '1.45rem';
+                backBtn.style.textDecoration = 'none';
+                backBtn.style.fontWeight = '700';
+                backBtn.style.boxShadow = '0 4px 24px 0 rgba(34,205,34,0.13)';
+                backBtn.style.zIndex = '9999';
+                backBtn.style.display = 'flex';
+                backBtn.style.alignItems = 'center';
+                backBtn.style.justifyContent = 'center';
+                backBtn.style.gap = '7px';
+                backBtn.style.height = '54px';
+                backBtn.style.minWidth = '120px';
+                backBtn.style.letterSpacing = '0.5px';
+                backBtn.innerHTML = '<span style="font-size:2.1rem;line-height:1;font-weight:700;">&#8592;</span><span style="margin-left:0.5px;font-size:2.1rem;line-height:1;font-weight:700;">Back</span>';
+                document.body.appendChild(backBtn);
+            }
+        })();
+    </script>
     <button id="chatbot-toggle" aria-label="Open chatbot"
         style="position:fixed;bottom:2rem;right:2rem;z-index:1002;background:#32cd32;color:#fff;border:none;border-radius:50%;width:60px;height:60px;box-shadow:0 2px 8px rgba(0,0,0,0.15);font-size:2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;">💬</button>
     <aside id="chatbot-sidebar">
