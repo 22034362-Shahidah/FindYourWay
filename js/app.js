@@ -428,6 +428,21 @@ document.addEventListener('DOMContentLoaded', function () {
       html += '<div style="margin-top:0.5em;font-size:0.95em;">Refer to the <b>campus map</b> on the left or <a href="https://maps.google.com/?q=Republic+Polytechnic" target="_blank" style="color:#228b22;text-decoration:underline;">Google Maps</a> for more details.</div>';
       return html;
     }
+    // Peaceful study place suggestion
+    if (/peaceful|quiet|best place.*study|suggest.*place.*study|study.*place|study.*spot|spot.*study/i.test(input)) {
+      return '<b>Most Peaceful Study Place:</b><br>The <b>Library</b> at Republic Polytechnic is the most peaceful and quiet place for you and your friends to study. It offers comfortable seating, group study rooms, and a calm environment. You can also try the <b>Lawn</b> area for a relaxing outdoor study session, or book a discussion room in the library for more privacy.';
+    }
+    // Carpark availability suggestion
+    if (/carpark|parking|park(ing)? lot(s)?/i.test(input) && /(available|now|right now|open|which|where)/i.test(input)) {
+      // Simulate available carpark (e.g., Carpark E is available)
+      return '<b>Carpark Availability:</b><br>Currently, <b>Carpark E</b> has the most available lots. For live updates, visit the <a href="parking.html" style="color:#228b22;text-decoration:underline;">Parking Lots Available</a> page.<br><br>' +
+        '<b>How to get to Carpark E:</b><ol style="margin:0.5em 0 0 1.2em;color:#228b22;font-size:1em;">' +
+        '<li>Enter Republic Polytechnic through the main entrance at Woodlands Avenue 9.</li>' +
+        '<li>Follow the signs to Block E.</li>' +
+        '<li>Carpark E is located near E5, at the east end of the campus.</li>' +
+        '<li>Look for the Carpark E signage.</li>' +
+        '</ol>';
+    }
     if (/open|hour|time/.test(input.toLowerCase()) && /library/.test(input.toLowerCase())) {
       return 'The library is open Mon-Fri 8am-9pm, Sat 9am-1pm.';
     }
@@ -570,5 +585,25 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => { o.stop(); ctx.close(); }, 120);
   }
   if (form) form.addEventListener('submit', playSendSound);
+
+  // Insert Back to Home Button
+  const backBtn = document.createElement('a');
+  backBtn.href = 'http://127.0.0.1:5500/index.html';
+  backBtn.innerHTML = '← Back';
+  backBtn.setAttribute('style', `
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+  `);
+  document.body.appendChild(backBtn);
 });
 
