@@ -100,7 +100,9 @@
     }
     function replayQuery(q) {
       q = decodeURIComponent(q);
-      window.location.href = `index.html#chatbot`; // Optionally, you can trigger the chatbot with this query
+      // Redirect to a full-page step-by-step guide for the location
+      window.location.href = `steps.html?destination=${encodeURIComponent(q)}`;
+      // Optionally, you can store the query for use in steps.html if needed
       localStorage.setItem('replayQuery', JSON.stringify(q));
     }
     renderHistory();

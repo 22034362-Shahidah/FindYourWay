@@ -10,8 +10,10 @@
 
 <body>
     <!-- Back Arrow Button to Home (refreshes the page) -->
-    <a id="back-to-welcome" href="index.html" aria-label="Back to Welcome" style="position: fixed; top: 12px; left: 12px; background: #d6f9d6; color: #228b22; padding: 3px 11px 3px 8px; border-radius: 16px; font-size: 0.73rem; text-decoration: none; font-weight: 700; box-shadow: 0 2px 12px 0 rgba(34,205,34,0.13); z-index: 9999; display: flex; align-items: center; justify-content: center; gap: 3.5px; height: 27px; min-width: 60px; letter-spacing: 0.25px;">
-        <span style="font-size:1.05rem;line-height:1;font-weight:700;">&#8592;</span><span style="margin-left:0.5px;font-size:1.05rem;line-height:1;font-weight:700;">Back</span>
+    <a id="back-to-welcome" href="index.html" aria-label="Back to Welcome"
+        style="position: fixed; top: 12px; left: 12px; background: #d6f9d6; color: #228b22; padding: 3px 11px 3px 8px; border-radius: 16px; font-size: 0.73rem; text-decoration: none; font-weight: 700; box-shadow: 0 2px 12px 0 rgba(34,205,34,0.13); z-index: 9999; display: flex; align-items: center; justify-content: center; gap: 3.5px; height: 27px; min-width: 60px; letter-spacing: 0.25px;">
+        <span style="font-size:1.05rem;line-height:1;font-weight:700;">&#8592;</span><span
+            style="margin-left:0.5px;font-size:1.05rem;line-height:1;font-weight:700;">Back</span>
     </a>
     <div id="welcome-overlay"
         style="position:fixed;z-index:2000;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#f0fff0 0%,#d6f9d6 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
@@ -29,7 +31,7 @@
         // On page load, show overlay and hide back button
         welcomeOverlay.style.display = 'flex';
         // When welcome button is clicked, hide overlay and show back button
-        welcomeBtn.addEventListener('click', function() {
+        welcomeBtn.addEventListener('click', function () {
             welcomeOverlay.style.display = 'none';
         });
     </script>

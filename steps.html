@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step-by-Step Directions</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0fff0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(144, 238, 144, 0.13);
+      padding: 2em;
+    }
+
+    h1 {
+      color: #228b22;
+    }
+
+    #steps-content {
+      margin-top: 2em;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1em;
+      background: #32cd32;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+    <h1>Step-by-Step Guide</h1>
+    <div id="steps-content">
+      <p>Loading directions...</p>
+    </div>
+  </div>
+  <script>
+    // Get destination from URL
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name) || '';
+    }
+    const destination = getQueryParam('destination');
+    const stepsContent = document.getElementById('steps-content');
+    if (destination) {
+      stepsContent.innerHTML = `<h2>Directions to: <span style='color:#32cd32;'>${destination}</span></h2>\n<p>(Step-by-step directions will appear here.)</p>`;
+    } else {
+      stepsContent.innerHTML = '<p>No destination specified.</p>';
+    }
+  </script>
+</body>
+
+</html>
