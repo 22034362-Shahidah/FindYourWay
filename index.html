@@ -76,6 +76,7 @@
                 </button>
             </li>
         </ul>
+
     </section>
     <main style="display: flex; min-height: 80vh; margin-top:-1.5em;">
         <div style="flex: 1;">
@@ -132,9 +133,10 @@
             <h3>Campus Chatbot</h3>
             <div id="chatbot-messages"></div>
             <form id="chatbot-form" autocomplete="off">
-                <input type="text" id="chatbot-input" placeholder="Ask me anything about campus..."
-                    autocomplete="off" />
-                <button type="submit">Send</button>
+                <input type="text" id="chatbot-input" placeholder="Ask me anything about campus..." autocomplete="off"
+                    style="width:70%;min-width:120px;max-width:calc(100% - 90px);padding:10px 12px;font-size:1.08em;border:1.5px solid #b2e5b2;border-radius:8px 0 0 8px;box-sizing:border-box;outline:none;" />
+                <button type="submit"
+                    style="width:30%;min-width:70px;max-width:90px;padding:10px 0;font-size:1.08em;background:#90ee90;color:#228b22;border:none;border-radius:0 8px 8px 0;font-weight:600;cursor:pointer;">Send</button>
             </form>
         </div>
     </aside>

@@ -21,14 +21,19 @@
       border-radius: 10px;
       box-shadow: 0 2px 16px rgba(144, 238, 144, 0.13);
       padding: 2em;
+      box-sizing: border-box;
     }
 
     h1 {
       color: #228b22;
+      font-size: 2em;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
     }
 
     #steps-content {
       margin-top: 2em;
+      word-break: break-word;
     }
 
     .back-btn {
@@ -40,6 +45,58 @@
       border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
+      font-size: 1em;
+      transition: background 0.2s;
+    }
+
+    .back-btn:active,
+    .back-btn:focus {
+      background: #228b22;
+      outline: none;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        max-width: 95vw;
+        margin: 10px;
+        padding: 1em;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .back-btn {
+        font-size: 0.95em;
+        padding: 8px 14px;
+      }
+
+      #steps-content {
+        margin-top: 1em;
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        max-width: 100vw;
+        margin: 0;
+        border-radius: 0;
+        padding: 0.5em;
+      }
+
+      h1 {
+        font-size: 1.2em;
+      }
+
+      .back-btn {
+        font-size: 0.9em;
+        padding: 6px 10px;
+      }
+
+      #steps-content {
+        font-size: 0.95em;
+      }
     }
   </style>
 </head>
@@ -58,10 +115,158 @@
       const url = new URL(window.location.href);
       return url.searchParams.get(name) || '';
     }
+
+
+    // Valid buildings, floors, and alphabets
+    const validBuildings = ["W1", "W2", "W3", "W4", "W5", "W6", "E1", "E2", "E3", "E4", "E5", "E6"];
+    const buildingFloors = {
+      "W1": 1-7, "W2": 1-7, "W3": 1-7, "W4": 1-8, "W5": 1-7, "W6": 1-8,
+      "E1": 1-5, "E2": 1-7, "E3": 1-8, "E4": 1-7, "E5": 1-7, "E6": 1-7
+    };
+    const validAlphabets = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Q", "R"];
+
+    // Validate classroom code format and details
+    function validateClassroomCode(code) {
+      // Format: Building (2 chars), Floor (1 digit), Alphabet (1 char)
+      const match = code.match(/^([WE][1-6])(\d)([A-Z])$/);
+      if (!match) {
+        return { valid: false, message: "Classroom code format invalid. Please use format W12D." };
+      }
+      const building = match[1];
+      const floor = parseInt(match[2], 10);
+      const alphabet = match[3];
+      if (!validBuildings.includes(building)) {
+        return { valid: false, message: "Building invalid, try again." };
+      }
+      if (building === "W1") {
+        if (floor < 3 || floor > 6) {
+          return { valid: false, message: "Floor invalid for W1, try again. (Level 2 is student hub, 3-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "W2") {
+        if (floor === 2) {
+          // Level 2 is valid for labs
+        } else if (floor >= 3 && floor <= 6) {
+          // Classrooms
+        } else {
+          return { valid: false, message: "Floor invalid for W2, try again. (Level 2 has labs, 3-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "W3") {
+        if (floor < 2 || floor > 6) {
+          return { valid: false, message: "Floor invalid for W3, try again. (Levels 2-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "W4") {
+        if (floor === 1) {
+          // Level 1 has lecture rooms
+        } else if (floor === 2) {
+          return { valid: false, message: "Floor invalid for W4, try again. (Level 2 has no classrooms)" };
+        } else if (floor === 3) {
+          return { valid: false, message: "Floor 3 is Lawn Food Court, shared with W6. No classrooms." };
+        } else if (floor >= 4 && floor <= 7) {
+          // Classrooms
+        } else {
+          return { valid: false, message: "Floor invalid for W4, try again. (Levels 1: lecture rooms, 4-7: classrooms, 8: staff office)" };
+        }
+      } else if (building === "W5") {
+        if (floor === 1) {
+          return { valid: false, message: "Floor invalid for W5, try again. (Level 1 is lobby, 2-6 are classrooms, 7 is staff office)" };
+        } else if (floor >= 2 && floor <= 6) {
+          // Classrooms
+        } else {
+          return { valid: false, message: "Floor invalid for W5, try again. (Level 1 is lobby, 2-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "W6") {
+        if (floor === 1) {
+          return { valid: false, message: "Floor invalid for W6, try again. (Level 1 is lobby, 4-7 are classrooms, 8 is staff office)" };
+        } else if (floor === 2) {
+          return { valid: false, message: "Floor 2 is linkway bridge to Sports Complex, no classrooms." };
+        } else if (floor === 3) {
+          return { valid: false, message: "Floor 3 is Lawn Food Court, shared with W4. No classrooms." };
+        } else if (floor >= 4 && floor <= 7) {
+          // Classrooms
+        } else {
+          return { valid: false, message: "Floor invalid for W6, try again. (Level 1 is lobby, 4-7 are classrooms, 8 is staff office)" };
+        }
+      } else if (building === "E1") {
+        if (floor === 1) {
+          return { valid: false, message: "Floor invalid for E1, try again. (Level 1 is lobby, no classrooms)" };
+        } else if (floor === 2) {
+          return { valid: false, message: "Floor 2 is linkway to South Food Court, no classrooms." };
+        } else if (floor === 3) {
+          return { valid: false, message: "Floor 3 is open study space, no classrooms." };
+        } else if (floor === 4) {
+          return { valid: false, message: "Floor 4 has meeting rooms, study spaces, and staff pantry. No classrooms." };
+        } else if (floor === 5) {
+          return { valid: false, message: "Floor 5 is student restaurant and staff office, no classrooms." };
+        } else {
+          return { valid: false, message: "Floor invalid for E1, try again. (No classrooms on any level)" };
+        }
+      } else if (building === "E2") {
+        if (floor >= 2 && floor <= 6) {
+          // Classrooms
+        } else if (floor === 7) {
+          // Staff office
+        } else {
+          return { valid: false, message: "Floor invalid for E2, try again. (Levels 2-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "E3") {
+        if (floor >= 2 && floor <= 7) {
+          // Classrooms
+        } else if (floor === 8) {
+          // Staff office
+        } else {
+          return { valid: false, message: "Floor invalid for E3, try again. (Levels 2-7 are classrooms, 8 is staff office)" };
+        }
+      } else if (building === "E4") {
+        if (floor >= 2 && floor <= 6) {
+          // Classrooms
+        } else if (floor === 7) {
+          // Staff office
+        } else {
+          return { valid: false, message: "Floor invalid for E4, try again. (Levels 2-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "E5") {
+        if (floor === 2) {
+          // Level 2 is valid for labs
+        } else if (floor >= 3 && floor <= 6) {
+          // Classrooms
+        } else if (floor === 7) {
+          // Staff office
+        } else {
+          return { valid: false, message: "Floor invalid for E5, try again. (Level 2 has labs, 3-6 are classrooms, 7 is staff office)" };
+        }
+      } else if (building === "E6") {
+        if (floor === 2) {
+          // Level 2 is valid for 4 labs
+        } else if (floor >= 3 && floor <= 6) {
+          // Classrooms
+        } else if (floor === 7) {
+          // Staff office
+        } else {
+          return { valid: false, message: "Floor invalid for E6, try again. (Level 2 has 4 labs, 3-6 are classrooms, 7 is staff office)" };
+        }
+      } else {
+        if (floor < 2 || floor > buildingFloors[building]) {
+          return { valid: false, message: "Floor invalid, try again. (Classrooms only valid from level 2 onwards)" };
+        }
+      }
+      if (!validAlphabets.includes(alphabet)) {
+        return { valid: false, message: "Classroom alphabet invalid, try again." };
+      }
+      return { valid: true, message: `Classroom code <span style='color:#32cd32;'>${code}</span> is valid.` };
+    }
+
     const destination = getQueryParam('destination');
     const stepsContent = document.getElementById('steps-content');
+
     if (destination) {
-      stepsContent.innerHTML = `<h2>Directions to: <span style='color:#32cd32;'>${destination}</span></h2>\n<p>(Step-by-step directions will appear here.)</p>`;
+      let codeMessage = '';
+      const result = validateClassroomCode(destination);
+      if (result.valid) {
+        codeMessage = `<p style='color:#228b22;font-weight:bold;'>${result.message}</p>`;
+      } else {
+        codeMessage = `<p style='color:#dc143c;font-weight:bold;'>Wrong code, please try again</p>`;
+      }
+      stepsContent.innerHTML = `<h2>Directions to: <span style='color:#32cd32;'>${destination}</span></h2>\n${codeMessage}<p>(Step-by-step directions will appear here.)</p>`;
     } else {
       stepsContent.innerHTML = '<p>No destination specified.</p>';
     }

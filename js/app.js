@@ -1,5 +1,9 @@
-// This file is intentionally left blank.
+// Campus Navigation App
 document.addEventListener('DOMContentLoaded', function () {
+  // Remove any leftover header or facility links if present
+  const oldHeader = document.getElementById('campus-header');
+  if (oldHeader) oldHeader.remove();
+  
   const chatbotForm = document.getElementById('chatbot-form');
   const chatbotInput = document.getElementById('chatbot-input');
   const chatbotMessages = document.getElementById('chatbot-messages');
@@ -126,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function () {
       map_ref: "Purple block labeled The Agora, far left of the map.",
       gmap: "https://maps.google.com/?q=Republic+Polytechnic+The+Agora"
     }
-    // ...add more as needed
   };
 
   // Sample opening hours
@@ -142,6 +145,27 @@ document.addEventListener('DOMContentLoaded', function () {
   // --- Chatbot Sidebar Toggle Logic ---
   const toggleBtn = document.getElementById('chatbot-toggle');
   const sidebar = document.getElementById('chatbot-sidebar');
+  
+  // Change chatbot toggle button background to lighter green
+  if (toggleBtn) {
+    toggleBtn.style.background = '#90ee90'; // Lighter green
+    toggleBtn.style.boxShadow = '0 0 0 8px #eafbe6'; // Softer glow
+    toggleBtn.style.width = '48px';
+    toggleBtn.style.height = '48px';
+    toggleBtn.style.minWidth = '48px';
+    toggleBtn.style.minHeight = '48px';
+    toggleBtn.style.maxWidth = '48px';
+    toggleBtn.style.maxHeight = '48px';
+    toggleBtn.style.padding = '0';
+    // Make chatbot input wider for better visibility
+    const chatbotInput = document.getElementById('chatbot-input');
+    if (chatbotInput) {
+      chatbotInput.style.width = '320px';
+      chatbotInput.style.maxWidth = '100%';
+      chatbotInput.style.fontSize = '1.05em'; // Slightly smaller font
+      chatbotInput.placeholder = 'How do I get to...';
+    }
+  }
 
   if (toggleBtn && sidebar) {
     toggleBtn.addEventListener('click', function (e) {
@@ -150,6 +174,19 @@ document.addEventListener('DOMContentLoaded', function () {
       toggleBtn.classList.toggle('active');
       if (sidebar.classList.contains('active')) {
         document.getElementById('chatbot-input').focus();
+        // Move toggleBtn to top left inside sidebar
+        toggleBtn.style.position = 'absolute';
+        toggleBtn.style.top = '18px';
+        toggleBtn.style.left = '18px';
+        toggleBtn.style.zIndex = '1001';
+        sidebar.appendChild(toggleBtn);
+      } else {
+        // Reset toggleBtn position when sidebar closes
+        toggleBtn.style.position = '';
+        toggleBtn.style.top = '';
+        toggleBtn.style.left = '';
+        toggleBtn.style.zIndex = '';
+        document.body.appendChild(toggleBtn);
       }
     });
     // Close on outside click
@@ -169,12 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // --- Chatbot UI & Messaging ---
-  function renderFavoriteButton(query) {
-    const isFav = favoritePaths.includes(query);
-    return `<button class="fav-btn" data-query="${encodeURIComponent(query)}" title="${isFav ? 'Unstar' : 'Star'} this pathway" style="background:none;border:none;cursor:pointer;font-size:1.2em;color:${isFav ? '#FFD700' : '#bbb'};float:right;">${isFav ? '★' : '☆'}</button>`;
-  }
-
-  function addMessage(text, sender = 'bot', html = false, query = '') {
+  function addMessage(text, sender = 'bot', html = false) {
     const messages = document.getElementById('chatbot-messages');
     const msgDiv = document.createElement('div');
     msgDiv.className = `chatbot-message ${sender}`;
@@ -184,9 +216,6 @@ document.addEventListener('DOMContentLoaded', function () {
       bubble.innerHTML = text;
     } else {
       bubble.textContent = text;
-    }
-    if (sender === 'bot' && query) {
-      bubble.innerHTML = renderFavoriteButton(query) + bubble.innerHTML;
     }
     msgDiv.appendChild(bubble);
     messages.appendChild(msgDiv);
@@ -219,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
     // Welcome message
-    addMessage('<span style="font-size:1.3em;">👋</span> Hi! I\'m your campus guide. <br>Try asking:<ul style="margin:0.5em 0 0 1.2em;padding:0;list-style:square;color:#228b22;font-size:0.98em;"><li>How do I get to E4?</li><li>How do I go to the library?</li><li>How do I get to the admin office?</li></ul>', 'bot', true);
+    addMessage('<span style="font-size:1.3em;">👋</span> Hi! I\'m your campus guide. <br>Try asking:<ul style="margin:0.5em 0 0 1.2em;padding:0;list-style:square;color:#228b22;font-size:0.98em;"><li>How do I get to E4?</li><li>How do I go to the library?</li><li>Classroom codes like W14K</li></ul>', 'bot', true);
     // Remove intro section if present
     const intro = document.getElementById('intro');
     if (intro) intro.parentNode.removeChild(intro);
@@ -240,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
     messages.appendChild(typingDiv);
     messages.scrollTop = messages.scrollHeight;
   }
+  
   function hideTyping() {
     const typing = document.getElementById('chatbot-typing');
     if (typing) typing.remove();
@@ -319,53 +349,6 @@ document.addEventListener('DOMContentLoaded', function () {
       'Enter through the main entrance and walk straight into the Atrium.',
       'The Admin Office is located to the left of the information counter.',
       'Look for the "Admin Office" signage.'
-    ],
-    'cafeteria': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'Head towards the sports complex by following the signs at the far end of the campus.',
-      'The cafeteria is beside the sports complex on the ground floor.',
-      'Look for the "Cafeteria" signage.'
-    ],
-    'sports complex': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'Continue straight, passing the central garden and cafeteria.',
-      'The sports complex is located at the far end of the campus, past the cafeteria.',
-      'Look for the "Sports Complex" signage.'
-    ],
-    'student hub': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'The Student Hub is on your right, beside the library and near the information counter.',
-      'Look for the "Student Hub" signage.'
-    ],
-    'lecture theatre': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'Follow the signs to the Lecture Theatres, which are located near the central garden area.',
-      'Look for the "Lecture Theatre" signage.'
-    ],
-    'carpark': [
-      'Carparks are located at both the east and west ends of the campus.',
-      'For Carpark E: Enter through the main entrance, follow signs to Block E, and look for Carpark E near E5.',
-      'For Carpark W: Enter through the main entrance, turn left towards Block W, and look for Carpark W near W5.'
-    ],
-    'north food court': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'Head towards Block W by turning left at the information counter.',
-      'Continue straight, passing W1 to W4.',
-      'The North Food Court is located near W4 and W5, at the northern end of the campus.',
-      'Look for the "North Food Court" signage.'
-    ],
-    'south food court': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'Head towards Block E by following the signs past the central garden.',
-      'Continue straight, passing E1 and E2.',
-      'The South Food Court is located near E1 and E2, at the southern end of the campus.',
-      'Look for the "South Food Court" signage.'
-    ],
-    'lawn food court': [
-      'Enter through the main entrance and walk straight into the Atrium.',
-      'Head towards the central garden/lawn area.',
-      'The Lawn Food Court is located beside the central lawn, between Block E and Block W.',
-      'Look for the "Lawn Food Court" signage.'
     ]
   };
 
@@ -419,6 +402,49 @@ document.addEventListener('DOMContentLoaded', function () {
     return null;
   }
 
+  // --- Classroom Code Validation Logic ---
+  function validateClassroomCode(code) {
+    const validBuildings = ["W1", "W2", "W3", "W4", "W5", "W6", "E1", "E2", "E3", "E4", "E5", "E6"];
+    const maxFloors = {
+      "W1": 7, "W2": 7, "W3": 7, "W4": 8, "W5": 7, "W6": 8,
+      "E1": 5, "E2": 7, "E3": 8, "E4": 7, "E5": 7, "E6": 7
+    };
+    const validRoomLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Q", "R"]; // Excludes O, P, S, T, U, V, W, X, Y, Z
+
+    // Check if input matches classroom code format (e.g., W14K)
+    const codeRegex = /^[WE]\d+[A-Z]$/i;
+    if (!codeRegex.test(code)) {
+      return null; // Not a classroom code format
+    }
+
+    const building = code.slice(0, 2).toUpperCase();
+    const floor = parseInt(code.slice(2, -1), 10);
+    const roomLetter = code.slice(-1).toUpperCase();
+
+    console.log("Validating classroom code:", code);
+    console.log("Extracted building:", building);
+    console.log("Extracted floor:", floor);
+    console.log("Extracted room letter:", roomLetter);
+
+    if (!validBuildings.includes(building)) {
+      console.log("Invalid building detected:", building);
+      return "Building invalid, try again.";
+    }
+
+    if (!maxFloors[building] || floor < 1 || floor > maxFloors[building]) {
+      console.log("Invalid floor detected for building:", building, "Floor:", floor);
+      return "Floor invalid, try again.";
+    }
+
+    if (!validRoomLetters.includes(roomLetter)) {
+      console.log("Invalid room letter detected:", roomLetter);
+      return "Room letter invalid, try again.";
+    }
+
+    console.log("Code validated successfully:", code);
+    return "Valid classroom code.";
+  }
+
   function getChatbotResponse(input) {
     const steps = getNavigationSteps(input);
     if (steps) {
@@ -428,143 +454,56 @@ document.addEventListener('DOMContentLoaded', function () {
       html += '<div style="margin-top:0.5em;font-size:0.95em;">Refer to the <b>campus map</b> on the left or <a href="https://maps.google.com/?q=Republic+Polytechnic" target="_blank" style="color:#228b22;text-decoration:underline;">Google Maps</a> for more details.</div>';
       return html;
     }
-    // Peaceful study place suggestion
-    if (/peaceful|quiet|best place.*study|suggest.*place.*study|study.*place|study.*spot|spot.*study/i.test(input)) {
-      return '<b>Most Peaceful Study Place:</b><br>The <b>Library</b> at Republic Polytechnic is the most peaceful and quiet place for you and your friends to study. It offers comfortable seating, group study rooms, and a calm environment. You can also try the <b>Lawn</b> area for a relaxing outdoor study session, or book a discussion room in the library for more privacy.';
-    }
-    // Carpark availability suggestion
-    if (/carpark|parking|park(ing)? lot(s)?/i.test(input) && /(available|now|right now|open|which|where)/i.test(input)) {
-      // Simulate available carpark (e.g., Carpark E is available)
-      return '<b>Carpark Availability:</b><br>Currently, <b>Carpark E</b> has the most available lots. For live updates, visit the <a href="parking.html" style="color:#228b22;text-decoration:underline;">Parking Lots Available</a> page.<br><br>' +
-        '<b>How to get to Carpark E:</b><ol style="margin:0.5em 0 0 1.2em;color:#228b22;font-size:1em;">' +
-        '<li>Enter Republic Polytechnic through the main entrance at Woodlands Avenue 9.</li>' +
-        '<li>Follow the signs to Block E.</li>' +
-        '<li>Carpark E is located near E5, at the east end of the campus.</li>' +
-        '<li>Look for the Carpark E signage.</li>' +
-        '</ol>';
-    }
-    if (/open|hour|time/.test(input.toLowerCase()) && /library/.test(input.toLowerCase())) {
-      return 'The library is open Mon-Fri 8am-9pm, Sat 9am-1pm.';
-    }
-    if (/open|hour|time/.test(input.toLowerCase()) && /cafeteria/.test(input.toLowerCase())) {
-      return 'The cafeteria is open from 7:30am to 7:30pm.';
-    }
-    if (/where|location/.test(input.toLowerCase()) && /e4/.test(input.toLowerCase())) {
-      return 'E4 is in the east wing (green section on the map).';
-    }
-    if (/where|location/.test(input.toLowerCase()) && /library/.test(input.toLowerCase())) {
-      return 'The library is on Level 2, main building.';
-    }
-    if (/where|location/.test(input.toLowerCase()) && /admin/.test(input.toLowerCase())) {
-      return 'The admin office is near the main entrance, left of the information counter.';
-    }
     if (/hello|hi|hey/.test(input.toLowerCase())) {
       return 'Hello! How can I help you find your way around campus?';
     }
-    return 'Sorry, I didn\'t get that. Try asking "How do I get from E1 to E5?" or "How do I go to the library?"';
+    return 'Sorry, I didn\'t get that. Try asking "How do I get to E4?" or enter a classroom code like "W14K".';
   }
-
-  // --- Favorite Pathways Feature ---
-  let favoritePaths = JSON.parse(localStorage.getItem('favoritePaths') || '[]');
-
-  // Handle favorite button click
-  function handleFavoriteClick(e) {
-    if (e.target.classList.contains('fav-btn')) {
-      const query = decodeURIComponent(e.target.getAttribute('data-query'));
-      const idx = favoritePaths.indexOf(query);
-      if (idx === -1) {
-        favoritePaths.push(query);
-      } else {
-        favoritePaths.splice(idx, 1);
-      }
-      localStorage.setItem('favoritePaths', JSON.stringify(favoritePaths));
-      // Rerender all favorite buttons
-      document.querySelectorAll('.fav-btn').forEach(btn => {
-        if (decodeURIComponent(btn.getAttribute('data-query')) === query) {
-          btn.innerHTML = favoritePaths.includes(query) ? '★' : '☆';
-          btn.style.color = favoritePaths.includes(query) ? '#FFD700' : '#bbb';
-          btn.title = favoritePaths.includes(query) ? 'Unstar this pathway' : 'Star this pathway';
-        }
-      });
-    }
-  }
-  document.getElementById('chatbot-messages').addEventListener('click', handleFavoriteClick);
-
-  // Show favorites at the top of the chatbot
-  function renderFavoritesList() {
-    const messages = document.getElementById('chatbot-messages');
-    const favDiv = document.createElement('div');
-    favDiv.className = 'chatbot-favorites';
-    favDiv.style.marginBottom = '1em';
-    favDiv.style.background = '#f8fff8';
-    favDiv.style.border = '1px solid #c2eec2';
-    favDiv.style.borderRadius = '8px';
-    favDiv.style.padding = '0.7em 1em';
-    favDiv.style.fontSize = '0.98em';
-    favDiv.innerHTML = '<b>⭐ Favorite Pathways:</b>';
-    if (favoritePaths.length === 0) {
-      favDiv.innerHTML += '<br><span style="color:#bbb;">No favorites yet.</span>';
-    } else {
-      favDiv.innerHTML += '<ul style="margin:0.5em 0 0 1.2em;">' + favoritePaths.map(q => `<li style="margin-bottom:0.3em;"><a href="#" class="fav-path-link" data-query="${encodeURIComponent(q)}" style="color:#4bb543;text-decoration:underline;">${q}</a></li>`).join('') + '</ul>';
-    }
-    // Remove old favorites list if present
-    const old = document.querySelector('.chatbot-favorites');
-    if (old) old.remove();
-    messages.prepend(favDiv);
-  }
-
-  // Handle click on favorite pathway link
-  function handleFavoritePathClick(e) {
-    if (e.target.classList.contains('fav-path-link')) {
-      e.preventDefault();
-      const query = decodeURIComponent(e.target.getAttribute('data-query'));
-      document.getElementById('chatbot-input').value = query;
-      document.getElementById('chatbot-form').dispatchEvent(new Event('submit'));
-    }
-  }
-  document.getElementById('chatbot-messages').addEventListener('click', handleFavoritePathClick);
 
   // --- Save all user queries to historyPaths for history.html ---
   let historyPaths = JSON.parse(localStorage.getItem('historyPaths') || '[]');
-  const form = document.getElementById('chatbot-form');
-  if (form) {
-    form.addEventListener('submit', function (e) {
+  
+  if (chatbotForm) {
+    chatbotForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const input = document.getElementById('chatbot-input');
       const text = input.value.trim();
       if (!text) return;
+      
       addMessage(text, 'user');
       input.value = '';
-      // Save to history
-      if (!historyPaths.includes(text)) {
-        historyPaths.push(text);
-        localStorage.setItem('historyPaths', JSON.stringify(historyPaths));
-      }
-      showTyping();
-      setTimeout(() => {
-        hideTyping();
-        const response = getChatbotResponse(text);
-        addMessage(response, 'bot', true, text);
-        renderFavoritesList();
-      }, 700 + Math.random() * 600);
-    });
-    // Show favorites on load
-    window.addEventListener('DOMContentLoaded', renderFavoritesList);
-  }
-  // --- Replay query from history.html if present ---
-  window.addEventListener('DOMContentLoaded', () => {
-    const replay = JSON.parse(localStorage.getItem('replayQuery') || 'null');
-    if (replay) {
-      localStorage.removeItem('replayQuery');
-      setTimeout(() => {
-        document.getElementById('chatbot-btn')?.click();
+
+      // Check if input is a classroom code
+      const validationResult = validateClassroomCode(text);
+      if (validationResult) {
+        if (validationResult === "Valid classroom code.") {
+          addMessage(validationResult, 'bot');
+          // Generate directions for valid classroom codes
+          setTimeout(() => {
+            const response = getChatbotResponse(text);
+            addMessage(response, 'bot', true);
+          }, 500);
+        } else {
+          // Invalid classroom code
+          addMessage(validationResult, 'bot');
+          return;
+        }
+      } else {
+        // Regular chatbot response for non-classroom queries
+        // Save to history
+        if (!historyPaths.includes(text)) {
+          historyPaths.push(text);
+          localStorage.setItem('historyPaths', JSON.stringify(historyPaths));
+        }
+        showTyping();
         setTimeout(() => {
-          document.getElementById('chatbot-input').value = replay;
-          document.getElementById('chatbot-form').dispatchEvent(new Event('submit'));
-        }, 400);
-      }, 400);
-    }
-  });
+          hideTyping();
+          const response = getChatbotResponse(text);
+          addMessage(response, 'bot', true);
+        }, 700 + Math.random() * 600);
+      }
+    });
+  }
 
   // --- Typing Dots Animation ---
   const style = document.createElement('style');
@@ -574,20 +513,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- Fun Sound Effect on Send ---
   function playSendSound() {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.type = 'triangle';
-    o.frequency.value = 660;
-    g.gain.value = 0.08;
-    o.connect(g); g.connect(ctx.destination);
-    o.start();
-    setTimeout(() => { o.stop(); ctx.close(); }, 120);
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'triangle';
+      o.frequency.value = 660;
+      g.gain.value = 0.08;
+      o.connect(g); g.connect(ctx.destination);
+      o.start();
+      setTimeout(() => { o.stop(); ctx.close(); }, 120);
+    } catch (e) {
+      console.log('Audio not supported');
+    }
   }
-  if (form) form.addEventListener('submit', playSendSound);
+  if (chatbotForm) chatbotForm.addEventListener('submit', playSendSound);
 
   // Remove Back to Home Button if present
   const oldBackBtn = document.querySelector('a[href="http://127.0.0.1:5500/index.html"]');
   if (oldBackBtn) oldBackBtn.remove();
 });
-
