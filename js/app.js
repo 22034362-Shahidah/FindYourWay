@@ -4,9 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const oldHeader = document.getElementById('campus-header');
   if (oldHeader) oldHeader.remove();
 
-<<<<<<< HEAD
   // Welcome overlay logic (if present)
-=======
+
   // Expanded data for locations based on the campus map
   const locations = {
     "main entrance": {
@@ -236,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Welcome message
->>>>>>> ce3ab893eca05a66b3f318fc9127f3856a342a9b
   window.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('welcome-overlay');
     const btn = document.getElementById('welcome-btn');
@@ -246,9 +244,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => overlay.style.display = 'none', 500);
       });
     }
-<<<<<<< HEAD
     
-=======
+
     // Feature: Chatbot button opens sidebar and scrolls to chatbot
     const chatbotBtn = document.getElementById('chatbot-btn');
     const chatbotSidebar = document.getElementById('chatbot-sidebar');
@@ -265,14 +262,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // Welcome message
     addMessage('<span style="font-size:1.3em;">👋</span> Hi! I\'m your campus assistant. <br>I can help you with:<ul style="margin:0.5em 0 0 1.2em;padding:0;list-style:none;color:#228b22;font-size:0.98em;"><li>🗺️ <b>Navigation:</b> "How do I get to E4?"</li><li>🏫 <b>Classroom codes:</b> "W14K", "E27A"</li><li>📋 <b>Campus guides:</b> "How to print", "How to book a room"</li><li>📶 <b>WiFi help, parking info, library hours</b></li></ul><div style="margin-top:0.5em;font-size:0.95em;color:#666;">💡 Just type your question or say "hello" to get started!</div>', 'bot', true);
->>>>>>> ce3ab893eca05a66b3f318fc9127f3856a342a9b
     // Remove intro section if present
     const intro = document.getElementById('intro');
     if (intro) intro.parentNode.removeChild(intro);
   });
 
-<<<<<<< HEAD
-=======
+
   // Typing indicator
   function showTyping() {
     const messages = document.getElementById('chatbot-messages');
@@ -929,7 +924,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   if (chatbotForm) chatbotForm.addEventListener('submit', playSendSound);
 
->>>>>>> ce3ab893eca05a66b3f318fc9127f3856a342a9b
+
   // Remove Back to Home Button if present
   const oldBackBtn = document.querySelector('a[href="http://127.0.0.1:5500/index.html"]');
   if (oldBackBtn) oldBackBtn.remove();
