@@ -9,32 +9,12 @@
 </head>
 
 <body>
-    <!-- Back Arrow Button to Home (refreshes the page) -->
-    <a id="back-to-welcome" href="index.html" aria-label="Back to Welcome"
-        style="position: fixed; top: 12px; left: 12px; background: #d6f9d6; color: #228b22; padding: 3px 11px 3px 8px; border-radius: 16px; font-size: 0.73rem; text-decoration: none; font-weight: 700; box-shadow: 0 2px 12px 0 rgba(34,205,34,0.13); z-index: 9999; display: flex; align-items: center; justify-content: center; gap: 3.5px; height: 27px; min-width: 60px; letter-spacing: 0.25px;">
-        <span style="font-size:1.05rem;line-height:1;font-weight:700;">&#8592;</span><span
-            style="margin-left:0.5px;font-size:1.05rem;line-height:1;font-weight:700;">Back</span>
+    <!-- Back Arrow Button to Home -->
+    <a id="back-to-welcome" href="https://rp-campask.onrender.com/" aria-label="Back to Welcome"
+        style="position: fixed; top: 18px; left: 18px; background: #d6f9d6; color: #228b22; padding: 6px 22px 6px 16px; border-radius: 32px; font-size: 1.45rem; text-decoration: none; font-weight: 700; box-shadow: 0 4px 24px 0 rgba(34,205,34,0.13); z-index: 9999; display: flex; align-items: center; justify-content: center; gap: 7px; height: 54px; min-width: 120px; letter-spacing: 0.5px;">
+        <span style="font-size:2.1rem;line-height:1;font-weight:700;">&#8592;</span><span
+            style="margin-left:0.5px;font-size:2.1rem;line-height:1;font-weight:700;">Back</span>
     </a>
-    <div id="welcome-overlay"
-        style="position:fixed;z-index:2000;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#f0fff0 0%,#d6f9d6 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
-        <button id="welcome-btn"
-            style="font-size:2.1rem;padding:1.1em 2.5em;background:#90ee90;color:#226622;border:none;border-radius:18px;box-shadow:0 2px 16px rgba(144,238,144,0.13);font-weight:700;letter-spacing:1px;cursor:pointer;transition:background 0.2s,transform 0.1s;">
-            Welcome to Republic Polytechnic!</button>
-        <p style="margin-top:2em;font-size:1.18rem;color:#226622;max-width:520px;text-align:center;line-height:1.6;">
-            Feel free to use this site to navigate around the campus. Find any buildings, facilities, and get
-            step-by-step directions around campus. Ask the chatbot for help at any time!</p>
-    </div>
-    <script>
-        // Show/hide welcome overlay and back button
-        const welcomeOverlay = document.getElementById('welcome-overlay');
-        const welcomeBtn = document.getElementById('welcome-btn');
-        // On page load, show overlay and hide back button
-        welcomeOverlay.style.display = 'flex';
-        // When welcome button is clicked, hide overlay and show back button
-        welcomeBtn.addEventListener('click', function () {
-            welcomeOverlay.style.display = 'none';
-        });
-    </script>
     <header class="main-header">
         <h1>Find Your Way</h1>
         <p>Navigate your way around the campus with ease!</p>
@@ -91,59 +71,203 @@
             </section>
         </div>
     </main>
-    <!-- Back Arrow Button (only on non-home pages, smaller, centered, says Back) -->
-    <script>
-        // Only show back button if NOT on homepage (index.html or /)
-        (function () {
-            var path = window.location.pathname.replace(/\\/g, '/');
-            var isHome = path.endsWith('/') || path.endsWith('/index.html') || path === '/index.html' || path === '/';
-            if (!isHome) {
-                var backBtn = document.createElement('a');
-                backBtn.href = 'javascript:void(0)';
-                backBtn.onclick = function (e) { e.preventDefault(); window.history.back(); };
-                backBtn.setAttribute('aria-label', 'Back');
-                backBtn.style.position = 'fixed';
-                backBtn.style.top = '18px';
-                backBtn.style.left = '18px';
-                backBtn.style.background = '#d6f9d6'; // light baby green
-                backBtn.style.color = '#228b22';
-                backBtn.style.padding = '6px 22px 6px 16px';
-                backBtn.style.borderRadius = '32px';
-                backBtn.style.fontSize = '1.45rem';
-                backBtn.style.textDecoration = 'none';
-                backBtn.style.fontWeight = '700';
-                backBtn.style.boxShadow = '0 4px 24px 0 rgba(34,205,34,0.13)';
-                backBtn.style.zIndex = '9999';
-                backBtn.style.display = 'flex';
-                backBtn.style.alignItems = 'center';
-                backBtn.style.justifyContent = 'center';
-                backBtn.style.gap = '7px';
-                backBtn.style.height = '54px';
-                backBtn.style.minWidth = '120px';
-                backBtn.style.letterSpacing = '0.5px';
-                backBtn.innerHTML = '<span style="font-size:2.1rem;line-height:1;font-weight:700;">&#8592;</span><span style="margin-left:0.5px;font-size:2.1rem;line-height:1;font-weight:700;">Back</span>';
-                document.body.appendChild(backBtn);
-            }
-        })();
-    </script>
-    <button id="chatbot-toggle" aria-label="Open chatbot"
-        style="position:fixed;bottom:2rem;right:2rem;z-index:1002;background:#32cd32;color:#fff;border:none;border-radius:50%;width:60px;height:60px;box-shadow:0 2px 8px rgba(0,0,0,0.15);font-size:2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;">💬</button>
-    <aside id="chatbot-sidebar">
-        <div class="chatbot-content">
-            <h3>Campus Chatbot</h3>
-            <div id="chatbot-messages"></div>
-            <form id="chatbot-form" autocomplete="off">
-                <input type="text" id="chatbot-input" placeholder="Ask me anything about campus..." autocomplete="off"
-                    style="width:70%;min-width:120px;max-width:calc(100% - 90px);padding:10px 12px;font-size:1.08em;border:1.5px solid #b2e5b2;border-radius:8px 0 0 8px;box-sizing:border-box;outline:none;" />
-                <button type="submit"
-                    style="width:30%;min-width:70px;max-width:90px;padding:10px 0;font-size:1.08em;background:#90ee90;color:#228b22;border:none;border-radius:0 8px 8px 0;font-weight:600;cursor:pointer;">Send</button>
-            </form>
-        </div>
-    </aside>
     <footer class="footer">
         <p>&copy; 2025 Find Your Way. All rights reserved.</p>
     </footer>
     <script src="js/app.js"></script>
+    
+    <!-- Botpress Webchat -->
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/07/18/06/20250718062936-0B402OCX.js"></script>
+    
+    <!-- Simple classroom validation that works alongside Botpress -->
+    <script>
+        console.log('🏫 Starting classroom validation...');
+        
+        // Validation function with exact requirements
+        function validateClassroom(code) {
+            const normalizedCode = code.toUpperCase().trim();
+            
+            // Format validation: Building code (W1-W6, E1-E6) + Floor Number + Room Letter
+            // Examples: W15A (W1, Floor 5, Room A), W67E (W6, Floor 7, Room E), E23B (E2, Floor 3, Room B)
+            const formatMatch = normalizedCode.match(/^([WE])(\d)(\d)([A-Z])$/);
+            if (!formatMatch) {
+                return '❌ Invalid format. Must match: Building code + Floor + Room letter\nExamples: W15A, W67E, E23B\nFormat: W/E + building# + floor# + room letter';
+            }
+            
+            const [, buildingPrefix, buildingNum, floorNum, roomLetter] = formatMatch;
+            const building = buildingPrefix + buildingNum;
+            const floor = parseInt(floorNum);
+            
+            // Building codes validation: W1-W6, E1-E6
+            const validBuildings = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'E1', 'E2', 'E3', 'E4', 'E5', 'E6'];
+            if (!validBuildings.includes(building)) {
+                return `❌ Invalid building "${building}". Valid buildings: W1-W6, E1-E6`;
+            }
+            
+            // Floor Numbers validation (Exact Limits)
+            const floorLimits = {
+                'W1': 7, 'W2': 7, 'W3': 7, 'W4': 8, 'W5': 7, 'W6': 8,
+                'E1': 5, 'E2': 7, 'E3': 8, 'E4': 7, 'E5': 7, 'E6': 7
+            };
+            
+            if (floor < 1 || floor > floorLimits[building]) {
+                return `❌ Invalid floor "${floor}" for ${building}. Valid floors: 1-${floorLimits[building]}`;
+            }
+            
+            // Room letters validation: A, B, C, D, E, F, G, H, I, J, K, L, M, N, Q, R
+            // Excludes: O, P, S, T, U, V, W, X, Y, Z
+            const validRoomLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Q', 'R'];
+            if (!validRoomLetters.includes(roomLetter)) {
+                return `❌ Invalid room letter "${roomLetter}". Valid letters: A, B, C, D, E, F, G, H, I, J, K, L, M, N, Q, R\nExcludes: O, P, S, T, U, V, W, X, Y, Z`;
+            }
+            
+            // Special responses for known codes from knowledge base
+            if (normalizedCode === 'W67E') {
+                return '✅ Valid classroom code: W67E\nBuilding: W6, Floor: 7, Room: E\n\n🗺️ Here\'s how to get there:\n1. Enter through the main entrance and turn left at the information counter in the Atrium.\n2. Follow the signs to Block W, passing the Student Hub and the central garden on your right.\n3. Walk past W1, W2, W3, W4, and W5. W6 is the last building at the end of Block W, near the North Canteen.\n4. Look for the W6 signage above the entrance.\n📍 Refer to the campus map or Google Maps for more details.';
+            }
+            
+            // Handle special case E62 (different format from knowledge base)
+            if (normalizedCode === 'E62') {
+                return '🧭 Directions to classroom E62:\n1. Enter through the main entrance and walk past the Atrium.\n2. Look for signs leading to Block E.\n3. Use the lift or stairs to go to Floor 6.\n4. Classroom 62 will be clearly labelled along the corridor.';
+            }
+            
+            // Generate response for valid classroom codes
+            return `✅ Valid classroom code: ${normalizedCode}\nBuilding: ${building}, Floor: ${floor}, Room: ${roomLetter}\n\n🗺️ Navigation:\n1. Enter through the main entrance\n2. Follow signs to Block ${buildingPrefix}\n3. Go to ${building} building\n4. Take elevator/stairs to floor ${floor}\n5. Look for room ${roomLetter}`;
+        }
+        
+        // Enhanced room letter validation
+        function isValidRoomLetter(letter) {
+            const validLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Q', 'R'];
+            return validLetters.includes(letter.toUpperCase());
+        }
+        
+        // Enhanced building validation
+        function isValidBuilding(building) {
+            const validBuildings = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'E1', 'E2', 'E3', 'E4', 'E5', 'E6'];
+            return validBuildings.includes(building.toUpperCase());
+        }
+        
+        // Enhanced floor validation
+        function isValidFloor(building, floor) {
+            const floorLimits = {
+                'W1': 7, 'W2': 7, 'W3': 7, 'W4': 8, 'W5': 7, 'W6': 8,
+                'E1': 5, 'E2': 7, 'E3': 8, 'E4': 7, 'E5': 7, 'E6': 7
+            };
+            
+            const limit = floorLimits[building.toUpperCase()];
+            return limit && floor >= 1 && floor <= limit;
+        }
+        
+        // Show result
+        function showValidation(message) {
+            // Remove existing notification
+            const existing = document.getElementById('classroom-notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.id = 'classroom-notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                border: 3px solid #32cd32;
+                border-radius: 12px;
+                padding: 20px;
+                max-width: 450px;
+                z-index: 999999;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+                font-family: Arial, sans-serif;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <span style="font-size: 20px; margin-right: 8px;">🏫</span>
+                    <strong style="color: #228b22;">Classroom Validation</strong>
+                    <button onclick="document.getElementById('classroom-notification').remove()" style="
+                        margin-left: auto;
+                        background: #ff4757;
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 24px;
+                        height: 24px;
+                        cursor: pointer;
+                        font-size: 14px;
+                    ">×</button>
+                </div>
+                <div style="color: #333; font-size: 14px; line-height: 1.5; white-space: pre-line;">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 10000);
+        }
+        
+        // Global function for testing
+        window.testRoom = function(code) {
+            const result = validateClassroom(code);
+            showValidation(result);
+            console.log('🏫 Validation result:', result);
+        };
+        
+        // Enhanced detection for classroom codes
+        function isClassroomCode(text) {
+            const trimmed = text.trim().toUpperCase();
+            // Match W/E + building# + floor# + room letter (e.g. W15A, W67E, E23B)
+            return /^[WE]\d\d[A-Z]$/.test(trimmed);
+        }
+        
+        // Monitor for classroom codes typed anywhere
+        let typedText = '';
+        document.addEventListener('keydown', function(e) {
+            if (e.key.length === 1) {
+                typedText += e.key;
+                if (typedText.length > 15) {
+                    typedText = typedText.slice(-15);
+                }
+                
+                // Check for classroom code patterns (4 characters: W/E + digit + digit + letter)
+                const matches = typedText.match(/[WE]\d\d[A-Z]/gi);
+                if (matches) {
+                    const lastMatch = matches[matches.length - 1];
+                    if (isClassroomCode(lastMatch)) {
+                        console.log('🎯 Detected classroom code:', lastMatch);
+                        setTimeout(() => testRoom(lastMatch), 300);
+                        typedText = '';
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                // Check if the last typed sequence is a classroom code
+                const recentText = typedText.slice(-4).trim();
+                if (isClassroomCode(recentText)) {
+                    console.log('🎯 Enter pressed with classroom code:', recentText);
+                    testRoom(recentText);
+                }
+                typedText = '';
+            }
+        });
+        
+        console.log('✅ Enhanced Classroom Validation Ready!');
+        console.log('📋 Requirements satisfied:');
+        console.log('   ✅ Building Codes: W1-W6, E1-E6');
+        console.log('   ✅ Floor Numbers: W1,W2,W3,W5(1-7), W4,W6(1-8), E1(1-5), E2,E4,E5,E6(1-7), E3(1-8)');
+        console.log('   ✅ Room Letters: A,B,C,D,E,F,G,H,I,J,K,L,M,N,Q,R (excludes O,P,S,T,U,V,W,X,Y,Z)');
+        console.log('   ✅ Format: Building code + Floor Number + Room Letter (W15A, W67E, E23B)');
+        console.log('💡 Test examples:');
+        console.log('   ✅ Valid: testRoom("W15A"), testRoom("W67E"), testRoom("E23B")');
+        console.log('   ❌ Invalid: testRoom("W7A"), testRoom("W19A"), testRoom("W1O")');
+        console.log('💡 Test with: testRoom("W67E"), testRoom("W15A"), testRoom("E23B"), etc.');
+    </script>
 </body>
 
 </html>
