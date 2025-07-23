@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Step-by-Step Directions</title>
+  <title>Step-by-Step Directions - Find Your Way</title>
   <link rel="stylesheet" href="css/styles.css">
   <style>
     body {
@@ -116,157 +116,300 @@
       return url.searchParams.get(name) || '';
     }
 
+    // Import the same chatbot logic from app.js
+    // This is a simplified version that replicates the chatbot processing logic
 
-    // Valid buildings, floors, and alphabets
+    // Valid buildings, floors, and room letters (same as in app.js)
     const validBuildings = ["W1", "W2", "W3", "W4", "W5", "W6", "E1", "E2", "E3", "E4", "E5", "E6"];
-    const buildingFloors = {
-      "W1": 1-7, "W2": 1-7, "W3": 1-7, "W4": 1-8, "W5": 1-7, "W6": 1-8,
-      "E1": 1-5, "E2": 1-7, "E3": 1-8, "E4": 1-7, "E5": 1-7, "E6": 1-7
+    const maxFloors = {
+      "W1": 7, "W2": 7, "W3": 7, "W4": 8, "W5": 7, "W6": 8,
+      "E1": 5, "E2": 7, "E3": 8, "E4": 7, "E5": 7, "E6": 7
     };
-    const validAlphabets = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Q", "R"];
+    const validRoomLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Q", "R"];
 
-    // Validate classroom code format and details
-    function validateClassroomCode(code) {
-      // Format: Building (2 chars), Floor (1 digit), Alphabet (1 char)
-      const match = code.match(/^([WE][1-6])(\d)([A-Z])$/);
-      if (!match) {
-        return { valid: false, message: "Classroom code format invalid. Please use format W12D." };
+    // Navigation data (simplified version from app.js)
+    const navigationData = {
+      'e1': [
+        'Enter Republic Polytechnic through the main entrance at Woodlands Avenue 9.',
+        'Walk straight ahead into the Atrium (the large open area with the information counter).',
+        'From the Atrium, look for signs pointing to Block E.',
+        'Proceed past the central garden, keeping the garden on your left.',
+        'Block E1 will be the first building on your right as you enter the E block.',
+        'Look for the E1 signage above the entrance.'
+      ],
+      'e2': [
+        'Enter through the main entrance and walk straight into the Atrium.',
+        'From the Atrium, head towards Block E (follow the E block signs).',
+        'Walk past E1 to reach E2.',
+        'E2 is the second building in the E block row.',
+        'Look for the E2 signage above the entrance.'
+      ],
+      'e3': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Head towards Block E by following the directional signs.',
+        'Walk past E1 and E2 to reach E3.',
+        'E3 is the third building in the E block row.',
+        'Look for the E3 signage above the entrance.'
+      ],
+      'e4': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Follow signs to Block E.',
+        'Walk past E1, E2, and E3 buildings.',
+        'E4 is the fourth building in the E block row.',
+        'Look for the E4 signage above the entrance.'
+      ],
+      'e5': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Head towards Block E following the signs.',
+        'Walk past E1 through E4 buildings.',
+        'E5 is the fifth building in the E block row.',
+        'Look for the E5 signage above the entrance.'
+      ],
+      'e6': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Head towards Block E following the directional signs.',
+        'Walk past all previous E buildings (E1-E5).',
+        'E6 is the last building in the E block row, near the North Food Court.',
+        'Look for the E6 signage above the entrance.'
+      ],
+      'w1': [
+        'Enter Republic Polytechnic through the main entrance at Woodlands Avenue 9.',
+        'Walk straight ahead into the Atrium.',
+        'From the Atrium, look for signs pointing to Block W.',
+        'Head towards the west side of campus.',
+        'W1 is the first building on your left as you enter the W block.',
+        'Look for the W1 signage above the entrance.'
+      ],
+      'w2': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Follow signs to Block W.',
+        'Head towards the west side and walk past W1.',
+        'W2 is the second building in the W block row.',
+        'Look for the W2 signage above the entrance.'
+      ],
+      'w3': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Follow signs to Block W.',
+        'Walk past W1 and W2 buildings.',
+        'W3 is the third building in the W block row.',
+        'Look for the W3 signage above the entrance.'
+      ],
+      'w4': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Head towards Block W following the signs.',
+        'Walk past W1, W2, and W3 buildings.',
+        'W4 is the fourth building in the W block row.',
+        'Look for the W4 signage above the entrance.'
+      ],
+      'w5': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Follow signs to Block W.',
+        'Walk past W1 through W4 buildings.',
+        'W5 is the fifth building in the W block row.',
+        'Look for the W5 signage above the entrance.'
+      ],
+      'w6': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Head towards Block W following the signs.',
+        'Walk past all previous W buildings (W1-W5).',
+        'W6 is the last building in the W block row, near the North Food Court.',
+        'Look for the W6 signage above the entrance.'
+      ],
+      'south canteen': [
+        'Enter through the main entrance at Woodlands Avenue 9.',
+        'Walk straight into the Atrium.',
+        'The South Food Court (South Canteen) is immediately on your right as you enter.',
+        'Look for the "South Food Court" signage.',
+        'It\'s the large dining area with multiple food stalls near the main entrance.'
+      ],
+      'south food court': [
+        'Enter through the main entrance at Woodlands Avenue 9.',
+        'Walk straight into the Atrium.',
+        'The South Food Court is immediately on your right as you enter.',
+        'Look for the "South Food Court" signage.',
+        'It\'s the large dining area with multiple food stalls near the main entrance.'
+      ],
+      'north canteen': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Follow signs to Block W or Block E and head towards the far end of campus.',
+        'Walk past all the W and E buildings until you reach the north end.',
+        'The North Food Court is located between W6 and E6 buildings.',
+        'Look for the "North Food Court" signage.'
+      ],
+      'north food court': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Follow signs to Block W or Block E and head towards the far end of campus.',
+        'Walk past all the W and E buildings until you reach the north end.',
+        'The North Food Court is located between W6 and E6 buildings.',
+        'Look for the "North Food Court" signage.'
+      ],
+      'library': [
+        'Enter through the main entrance and walk into the Atrium.',
+        'Look for signs pointing to the Library.',
+        'Take the escalator or stairs to Level 2.',
+        'Follow the Library signs and walk towards the central area.',
+        'The Library entrance will be clearly marked.',
+        'Present your student card at the entrance for access.'
+      ],
+      'lawn canteen': [
+        'Enter through the main entrance and walk straight into the Atrium.',
+        'Head towards the central Lawn area (the large open green space).',
+        'The Lawn Canteen is located on the eastern side of the Lawn, near the E buildings.',
+        'It\'s a smaller dining area with outdoor seating overlooking the Lawn.',
+        'Look for the "Lawn Canteen" signage.'
+      ]
+    };
+
+    // Classroom code validation function (same logic as app.js)
+    function processClassroomCode(code) {
+      try {
+        const building = code.slice(0, 2).toUpperCase();
+        const floor = parseInt(code.slice(2, -1), 10);
+        const roomLetter = code.slice(-1).toUpperCase();
+
+        // Validate building
+        if (!validBuildings.includes(building)) {
+          return {
+            isValid: false,
+            message: `❌ <b>Invalid building "${building}"</b><br>Valid buildings: ${validBuildings.join(', ')}`
+          };
+        }
+
+        // Validate floor
+        if (!maxFloors[building] || floor < 1 || floor > maxFloors[building]) {
+          return {
+            isValid: false,
+            message: `❌ <b>Invalid floor "${floor}" for building ${building}</b><br>Valid floors for ${building}: 1-${maxFloors[building]}`
+          };
+        }
+
+        // Validate room letter
+        if (!validRoomLetters.includes(roomLetter)) {
+          return {
+            isValid: false,
+            message: `❌ <b>Invalid room letter "${roomLetter}"</b><br>Valid letters: ${validRoomLetters.join(', ')}`
+          };
+        }
+
+        return {
+          isValid: true,
+          message: `✅ <b>Valid classroom code: ${code.toUpperCase()}</b><br>Building: ${building}, Floor: ${floor}, Room: ${roomLetter}`
+        };
+      } catch (error) {
+        console.error('Error validating classroom code:', error);
+        return {
+          isValid: false,
+          message: '❌ Error validating classroom code. Please try again.'
+        };
       }
-      const building = match[1];
-      const floor = parseInt(match[2], 10);
-      const alphabet = match[3];
-      if (!validBuildings.includes(building)) {
-        return { valid: false, message: "Building invalid, try again." };
-      }
-      if (building === "W1") {
-        if (floor < 3 || floor > 6) {
-          return { valid: false, message: "Floor invalid for W1, try again. (Level 2 is student hub, 3-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "W2") {
-        if (floor === 2) {
-          // Level 2 is valid for labs
-        } else if (floor >= 3 && floor <= 6) {
-          // Classrooms
-        } else {
-          return { valid: false, message: "Floor invalid for W2, try again. (Level 2 has labs, 3-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "W3") {
-        if (floor < 2 || floor > 6) {
-          return { valid: false, message: "Floor invalid for W3, try again. (Levels 2-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "W4") {
-        if (floor === 1) {
-          // Level 1 has lecture rooms
-        } else if (floor === 2) {
-          return { valid: false, message: "Floor invalid for W4, try again. (Level 2 has no classrooms)" };
-        } else if (floor === 3) {
-          return { valid: false, message: "Floor 3 is Lawn Food Court, shared with W6. No classrooms." };
-        } else if (floor >= 4 && floor <= 7) {
-          // Classrooms
-        } else {
-          return { valid: false, message: "Floor invalid for W4, try again. (Levels 1: lecture rooms, 4-7: classrooms, 8: staff office)" };
-        }
-      } else if (building === "W5") {
-        if (floor === 1) {
-          return { valid: false, message: "Floor invalid for W5, try again. (Level 1 is lobby, 2-6 are classrooms, 7 is staff office)" };
-        } else if (floor >= 2 && floor <= 6) {
-          // Classrooms
-        } else {
-          return { valid: false, message: "Floor invalid for W5, try again. (Level 1 is lobby, 2-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "W6") {
-        if (floor === 1) {
-          return { valid: false, message: "Floor invalid for W6, try again. (Level 1 is lobby, 4-7 are classrooms, 8 is staff office)" };
-        } else if (floor === 2) {
-          return { valid: false, message: "Floor 2 is linkway bridge to Sports Complex, no classrooms." };
-        } else if (floor === 3) {
-          return { valid: false, message: "Floor 3 is Lawn Food Court, shared with W4. No classrooms." };
-        } else if (floor >= 4 && floor <= 7) {
-          // Classrooms
-        } else {
-          return { valid: false, message: "Floor invalid for W6, try again. (Level 1 is lobby, 4-7 are classrooms, 8 is staff office)" };
-        }
-      } else if (building === "E1") {
-        if (floor === 1) {
-          return { valid: false, message: "Floor invalid for E1, try again. (Level 1 is lobby, no classrooms)" };
-        } else if (floor === 2) {
-          return { valid: false, message: "Floor 2 is linkway to South Food Court, no classrooms." };
-        } else if (floor === 3) {
-          return { valid: false, message: "Floor 3 is open study space, no classrooms." };
-        } else if (floor === 4) {
-          return { valid: false, message: "Floor 4 has meeting rooms, study spaces, and staff pantry. No classrooms." };
-        } else if (floor === 5) {
-          return { valid: false, message: "Floor 5 is student restaurant and staff office, no classrooms." };
-        } else {
-          return { valid: false, message: "Floor invalid for E1, try again. (No classrooms on any level)" };
-        }
-      } else if (building === "E2") {
-        if (floor >= 2 && floor <= 6) {
-          // Classrooms
-        } else if (floor === 7) {
-          // Staff office
-        } else {
-          return { valid: false, message: "Floor invalid for E2, try again. (Levels 2-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "E3") {
-        if (floor >= 2 && floor <= 7) {
-          // Classrooms
-        } else if (floor === 8) {
-          // Staff office
-        } else {
-          return { valid: false, message: "Floor invalid for E3, try again. (Levels 2-7 are classrooms, 8 is staff office)" };
-        }
-      } else if (building === "E4") {
-        if (floor >= 2 && floor <= 6) {
-          // Classrooms
-        } else if (floor === 7) {
-          // Staff office
-        } else {
-          return { valid: false, message: "Floor invalid for E4, try again. (Levels 2-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "E5") {
-        if (floor === 2) {
-          // Level 2 is valid for labs
-        } else if (floor >= 3 && floor <= 6) {
-          // Classrooms
-        } else if (floor === 7) {
-          // Staff office
-        } else {
-          return { valid: false, message: "Floor invalid for E5, try again. (Level 2 has labs, 3-6 are classrooms, 7 is staff office)" };
-        }
-      } else if (building === "E6") {
-        if (floor === 2) {
-          // Level 2 is valid for 4 labs
-        } else if (floor >= 3 && floor <= 6) {
-          // Classrooms
-        } else if (floor === 7) {
-          // Staff office
-        } else {
-          return { valid: false, message: "Floor invalid for E6, try again. (Level 2 has 4 labs, 3-6 are classrooms, 7 is staff office)" };
-        }
-      } else {
-        if (floor < 2 || floor > buildingFloors[building]) {
-          return { valid: false, message: "Floor invalid, try again. (Classrooms only valid from level 2 onwards)" };
-        }
-      }
-      if (!validAlphabets.includes(alphabet)) {
-        return { valid: false, message: "Classroom alphabet invalid, try again." };
-      }
-      return { valid: true, message: `Classroom code <span style='color:#32cd32;'>${code}</span> is valid.` };
     }
 
+    // Check if input is a classroom code
+    function isClassroomCode(input) {
+      const codeRegex = /^[WE]\d+[A-Z]$/i;
+      return codeRegex.test(input.trim());
+    }
+
+    // Generate navigation steps
+    function getNavigationSteps(building) {
+      const key = building.toLowerCase();
+      return navigationData[key] || null;
+    }
+
+    // Process the query and generate response (same logic as chatbot)
+    function processQuery(input) {
+      try {
+        const trimmedInput = input.trim();
+
+        // Check if it's a classroom code
+        if (isClassroomCode(trimmedInput)) {
+          const validation = processClassroomCode(trimmedInput);
+          if (validation.isValid) {
+            // Also provide navigation to the building
+            const building = trimmedInput.slice(0, 2).toLowerCase();
+            const navigationSteps = getNavigationSteps(building);
+            
+            let response = validation.message;
+            if (navigationSteps) {
+              response += '<br><br><b>🗺️ How to get to ' + building.toUpperCase() + ':</b>';
+              response += '<ol style="margin:0.5em 0 0 1.2em;color:#228b22;font-size:1em;">';
+              navigationSteps.forEach(step => response += `<li>${step}</li>`);
+              response += '</ol>';
+              response += '<div style="margin-top:0.5em;font-size:0.95em;color:#666;">💡 Once you reach the building, look for level and room number signs inside.</div>';
+            }
+            return response;
+          }
+          return validation.message;
+        } else {
+          // Handle other queries (navigation, etc.)
+          const lower = input.toLowerCase();
+          
+          // Check for exact location matches first
+          for (const [key, steps] of Object.entries(navigationData)) {
+            if (lower.includes(key)) {
+              let response = `<b>🗺️ Directions to ${key.charAt(0).toUpperCase() + key.slice(1)}:</b>`;
+              response += '<ol style="margin:0.5em 0 0 1.2em;color:#228b22;font-size:1em;">';
+              steps.forEach(step => response += `<li>${step}</li>`);
+              response += '</ol>';
+              response += '<div style="margin-top:0.5em;font-size:0.95em;color:#666;">💡 Need more help? Ask the chatbot on the main page for additional assistance.</div>';
+              return response;
+            }
+          }
+          
+          // Check for building names
+          for (const building of validBuildings) {
+            if (lower.includes(building.toLowerCase())) {
+              const steps = getNavigationSteps(building.toLowerCase());
+              if (steps) {
+                let response = `<b>🗺️ Directions to ${building.toUpperCase()}:</b>`;
+                response += '<ol style="margin:0.5em 0 0 1.2em;color:#228b22;font-size:1em;">';
+                steps.forEach(step => response += `<li>${step}</li>`);
+                response += '</ol>';
+                response += '<div style="margin-top:0.5em;font-size:0.95em;color:#666;">💡 Once you reach the building, look for level and room number signs inside.</div>';
+                return response;
+              }
+            }
+          }
+          
+          // Check for aliases/synonyms
+          const aliases = {
+            'canteen': 'south canteen',
+            'food court': 'south food court',
+            'cafeteria': 'south canteen',
+            'dining': 'south canteen',
+            'food': 'south canteen',
+            'eating': 'south canteen'
+          };
+          
+          for (const [alias, target] of Object.entries(aliases)) {
+            if (lower.includes(alias) && navigationData[target]) {
+              let response = `<b>🗺️ Directions to ${target.charAt(0).toUpperCase() + target.slice(1)}:</b>`;
+              response += '<ol style="margin:0.5em 0 0 1.2em;color:#228b22;font-size:1em;">';
+              navigationData[target].forEach(step => response += `<li>${step}</li>`);
+              response += '</ol>';
+              response += '<div style="margin-top:0.5em;font-size:0.95em;color:#666;">💡 Need more help? Ask the chatbot on the main page for additional assistance.</div>';
+              return response;
+            }
+          }
+          
+          return `<p style="color:#666;">Could not find specific directions for "${input}". Please try:<br>• A valid classroom code (e.g., "W14K", "E27A")<br>• A building name (e.g., "E4", "W2")<br>• Common locations (e.g., "library", "canteen", "north food court")<br>• Or go back to the main page to ask the chatbot.</p>`;
+        }
+      } catch (error) {
+        console.error('Error processing query:', error);
+        return '❌ Error processing your request. Please try again.';
+      }
+    }
+
+    // Main logic
     const destination = getQueryParam('destination');
     const stepsContent = document.getElementById('steps-content');
 
     if (destination) {
-      let codeMessage = '';
-      const result = validateClassroomCode(destination);
-      if (result.valid) {
-        codeMessage = `<p style='color:#228b22;font-weight:bold;'>${result.message}</p>`;
-      } else {
-        codeMessage = `<p style='color:#dc143c;font-weight:bold;'>Wrong code, please try again</p>`;
-      }
-      stepsContent.innerHTML = `<h2>Directions to: <span style='color:#32cd32;'>${destination}</span></h2>\n${codeMessage}<p>(Step-by-step directions will appear here.)</p>`;
+      const response = processQuery(destination);
+      stepsContent.innerHTML = `
+        <h2>Directions to: <span style='color:#32cd32;'>${destination}</span></h2>
+        <div style="margin-top: 1em;">${response}</div>
+      `;
     } else {
       stepsContent.innerHTML = '<p>No destination specified.</p>';
     }
