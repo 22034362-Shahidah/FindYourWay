@@ -3,10 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Remove any leftover header or facility links if present
   const oldHeader = document.getElementById('campus-header');
   if (oldHeader) oldHeader.remove();
-  
-  const chatbotForm = document.getElementById('chatbot-form');
-  const chatbotInput = document.getElementById('chatbot-input');
-  const chatbotMessages = document.getElementById('chatbot-messages');
+
+  // Welcome overlay logic (if present)
 
   // Expanded data for locations based on the campus map
   const locations = {
@@ -238,7 +236,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Welcome message
   window.addEventListener('DOMContentLoaded', () => {
-    // Welcome overlay logic
     const overlay = document.getElementById('welcome-overlay');
     const btn = document.getElementById('welcome-btn');
     if (overlay && btn) {
@@ -247,6 +244,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => overlay.style.display = 'none', 500);
       });
     }
+    
+
     // Feature: Chatbot button opens sidebar and scrolls to chatbot
     const chatbotBtn = document.getElementById('chatbot-btn');
     const chatbotSidebar = document.getElementById('chatbot-sidebar');
@@ -267,6 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const intro = document.getElementById('intro');
     if (intro) intro.parentNode.removeChild(intro);
   });
+
 
   // Typing indicator
   function showTyping() {
@@ -923,6 +923,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   if (chatbotForm) chatbotForm.addEventListener('submit', playSendSound);
+
 
   // Remove Back to Home Button if present
   const oldBackBtn = document.querySelector('a[href="http://127.0.0.1:5500/index.html"]');

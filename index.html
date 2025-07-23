@@ -25,7 +25,7 @@
         <ul class="features-list" style="margin-left:2em;">
             <li>
                 <button class="feature-btn" id="map-btn"
-                    onclick="window.open('https://www.google.com/maps/place/Republic+Polytechnic/@1.4426,103.785,17z', '_blank')">
+                    onclick="window.open('https: //www.google.com/maps/place/Republic+Polytechnic/@1.4426,103.785,17z', '_blank')">
                     <span class="feature-icon">🗺️</span>
                     <div class="feature-content">
                         <div class="feature-title">Interactive Campus Map</div>
@@ -71,9 +71,49 @@
             </section>
         </div>
     </main>
+HEAD
+    <!-- Back Arrow Button (only on non-home pages, smaller, centered, says Back) -->
+    <script>
+        // Only show back button if NOT on homepage (index.html or /)
+        (function () {
+            var path = window.location.pathname.replace(/\\/g, '/');
+            var isHome = path.endsWith('/') || path.endsWith('/index.html') || path === '/index.html' || path === '/';
+            if (!isHome) {
+                var backBtn = document.createElement('a');
+                backBtn.href = 'javascript:void(0)';
+                backBtn.onclick = function (e) { e.preventDefault(); window.history.back(); };
+                backBtn.setAttribute('aria-label', 'Back');
+                backBtn.style.position = 'fixed';
+                backBtn.style.top = '18px';
+                backBtn.style.left = '18px';
+                backBtn.style.background = '#d6f9d6'; // light baby green
+                backBtn.style.color = '#228b22';
+                backBtn.style.padding = '6px 22px 6px 16px';
+                backBtn.style.borderRadius = '32px';
+                backBtn.style.fontSize = '1.45rem';
+                backBtn.style.textDecoration = 'none';
+                backBtn.style.fontWeight = '700';
+                backBtn.style.boxShadow = '0 4px 24px 0 rgba(34,205,34,0.13)';
+                backBtn.style.zIndex = '9999';
+                backBtn.style.display = 'flex';
+                backBtn.style.alignItems = 'center';
+                backBtn.style.justifyContent = 'center';
+                backBtn.style.gap = '7px';
+                backBtn.style.height = '54px';
+                backBtn.style.minWidth = '120px';
+                backBtn.style.letterSpacing = '0.5px';
+                backBtn.innerHTML = '<span style="font-size:2.1rem;line-height:1;font-weight:700;">&#8592;</span><span style="margin-left:0.5px;font-size:2.1rem;line-height:1;font-weight:700;">Back</span>';
+                document.body.appendChild(backBtn);
+            }
+        })();
+    </script>
     <footer class="footer">
         <p>&copy; 2025 Find Your Way. All rights reserved.</p>
     </footer>
+    
+    <!-- Botpress Chatbot Scripts -->
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js" defer></script>
+    <script src="https://files.bpcontent.cloud/2025/07/17/06/20250717062959-GKDDN505.js" defer></script>
     <script src="js/app.js"></script>
     
     <!-- Botpress Webchat -->
